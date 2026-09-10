@@ -79,7 +79,7 @@ const PROJECTS = [
   },
 ];
 
-/* --------------------------- Estado / nodos --------------------------- */
+
 
 const grid    = document.getElementById("grid");
 const filters = document.querySelector(".filters");
