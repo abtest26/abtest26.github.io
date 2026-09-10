@@ -1,14 +1,9 @@
-/* ---------------------------------------------------------------
-   Angie Bolea — portfolio
-   Lógica de diseño adaptada del sitio de Eric Timothy Carlson:
-   retícula conmutable, monospace, filtros, shuffle, tamaño ±.
---------------------------------------------------------------- */
+
 
 :root {
   --bg:        #ffffff;
   --ink:       #131313;
   --muted:     #8a8a86;
-  --line:      rgba(0, 0, 0, 0.12);
   --gold:      #968255;   /* acento de marca de Angie Bolea */
   --gold-deep: #655739;
 
@@ -59,13 +54,12 @@ body.grid-on .grid-overlay { display: grid; }
   top: 0;
   z-index: 40;
   background: var(--bg);
-  border-bottom: 1px solid var(--line);
+  
 }
 
 .masthead {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
   gap: 1rem;
   padding: 10px var(--pad);
 }
@@ -74,7 +68,6 @@ body.grid-on .grid-overlay { display: grid; }
   font-family: var(--sans);
   font-weight: 700;
   font-size: clamp(15px, 2.1vw, 20px);
-  letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
   white-space: nowrap;
@@ -110,7 +103,7 @@ body.grid-on .grid-overlay { display: grid; }
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 6px 10px;
+  gap: 10px 3px;
 }
 .filters { flex: 1; }
 
@@ -215,8 +208,7 @@ body.grid-on .grid-overlay { display: grid; }
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  padding: 8px 1px 0;
-  border-top: 1px solid var(--line);
+  padding: 8px 1px 0; 
   margin-top: 6px;
 }
 .item__title { color: var(--ink); }
