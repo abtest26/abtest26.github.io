@@ -1,0 +1,264 @@
+/* ---------------------------------------------------------------
+   Angie Bolea — portfolio
+   Lógica de diseño adaptada del sitio de Eric Timothy Carlson:
+   retícula conmutable, monospace, filtros, shuffle, tamaño ±.
+--------------------------------------------------------------- */
+
+:root {
+  --bg:        #ffffff;
+  --ink:       #131313;
+  --muted:     #8a8a86;
+  --line:      rgba(0, 0, 0, 0.12);
+  --gold:      #968255;   /* acento de marca de Angie Bolea */
+  --gold-deep: #655739;
+
+  
+  
+
+  --pad: clamp(14px, 4vw, 34px);
+  --cols: 3;              /* columnas de la rejilla (tecla +/-) */
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+/* ----------------------------- Retícula ----------------------------- */
+
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  padding: 0 var(--pad);
+  pointer-events: none;
+}
+.grid-overlay { grid-template-columns: repeat(6, 1fr); gap: 30px; }
+body.grid-on .grid-overlay { display: grid; }
+.grid-overlay .col {
+  border-left: 1px solid rgba(150, 130, 85, 0.35);
+  border-right: 1px solid rgba(150, 130, 85, 0.35);
+}
+
+/* ----------------------------- Cabecera ----------------------------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 10px var(--pad);
+}
+
+.masthead__name {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: clamp(15px, 2.1vw, 20px);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.masthead__toggle {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 26px;
+  padding: 6px 2px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.masthead__toggle span {
+  height: 1.5px;
+  background: var(--ink);
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+/* Fila de controles */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: clamp(14px, 4vw, 48px);
+  padding: 0 var(--pad) 10px;
+}
+.controls[hidden] { display: none; }
+
+.controls__block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 10px;
+}
+.filters { flex: 1; }
+
+/* Botones de texto */
+.btn {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.btn:hover,
+.btn:focus-visible { color: var(--ink); outline: none; }
+.btn.is-active { color: var(--gold-deep); }
+
+.info__links a { text-decoration: none; color: var(--muted); }
+.info__links a:hover { color: var(--gold-deep); }
+
+.toolkit .btn[data-action="smaller"],
+.toolkit .btn[data-action="larger"] {
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* --------------------------------- Bio -------------------------------- */
+
+.bio {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(14px, 4vw, 48px);
+  max-width: 760px;
+  padding: 22px var(--pad) 6px;
+}
+.bio[hidden] { display: none; }
+.bio p { margin: 0 0 0.9em; max-width: 46ch; }
+.bio__contact { color: var(--gold-deep); }
+
+/* ------------------------------- Rejilla ------------------------------ */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: 30px;
+  padding: 22px var(--pad) 64px;
+}
+
+.item {
+  position: relative;
+  min-width: 0;
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+.item.is-hidden { display: none; }
+
+.item__link { text-decoration: none; display: block; }
+
+.item__frame {
+  position: relative;
+  overflow: hidden;
+  background: #f1f1ef;
+  aspect-ratio: 3 / 2;                 /* se sobre-escribe por proyecto */
+}
+.item__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.6s ease;
+}
+.item__img.is-loaded { opacity: 1; }
+.item__link:hover .item__img.is-loaded { transform: scale(1.03); }
+
+/* Velo + título sobre la imagen al pasar el cursor */
+.item__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 12px;
+  color: #fff;
+  background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0) 55%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.item__link:hover .item__overlay,
+.item__link:focus-visible .item__overlay { opacity: 1; }
+
+.item__overlay-title {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Ficha de texto bajo la imagen */
+.item__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 1px 0;
+  border-top: 1px solid var(--line);
+  margin-top: 6px;
+}
+.item__title { color: var(--ink); }
+.item__cats  { color: var(--muted); text-align: right; }
+
+/* -------------------------------- Footer ------------------------------ */
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px var(--pad);
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+.site-footer__links { display: flex; gap: 16px; }
+.site-footer a { text-decoration: none; }
+.site-footer a:hover { color: var(--gold-deep); }
+
+/* ------------------------------ Responsive ---------------------------- */
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  .masthead__toggle { display: inline-flex; }
+  .controls[hidden].is-open { display: flex; }
+  .controls { flex-direction: column; gap: 12px; }
+  .grid { grid-template-columns: 1fr; }
+  .bio  { grid-template-columns: 1fr; }
+  /* En móvil el overlay siempre visible para touch */
+  .item__overlay { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0) 50%); }
+}
+
+@media (min-width: 641px) {
+  .masthead__toggle { display: none; }
+  .controls[hidden] { display: flex; }   /* en desktop siempre visible */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.01ms !important; }
+  .item__link:hover .item__img { transform: none; }
+}

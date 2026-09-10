@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Angie Bolea — Direction &amp; Visual Research</title>
+  <meta name="description" content="Direction and creative research for film, advertising and music videos.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Angie Bolea — Direction &amp; Visual Research">
+  <meta property="og:description" content="Direction and creative research for film, advertising and music videos.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Retícula conmutable (tecla g) -->
+  <div class="grid-overlay" aria-hidden="true">
+    <div class="col"></div><div class="col"></div><div class="col"></div>
+    <div class="col"></div><div class="col"></div><div class="col"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="masthead">
+      <a class="masthead__name" href="./">Angie Bolea</a>
+      <button class="masthead__toggle" type="button" aria-label="Menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <div class="controls" hidden>
+
+      <!-- Info + enlaces -->
+      <div class="controls__block info">
+        <button class="btn info__toggle" type="button" aria-expanded="false">Info.</button>
+        <span class="info__links">
+          <a href="https://www.instagram.com/angiebolea" target="_blank" rel="noopener">IG.</a>
+          <a href="https://vimeo.com/angiebolea" target="_blank" rel="noopener">Vimeo.</a>
+          <a href="https://www.linkedin.com/in/angiebolea/" target="_blank" rel="noopener">In.</a>
+        </span>
+      </div>
+
+      <!-- Filtros por categoría (se generan en JS) -->
+      <div class="controls__block filters" role="group" aria-label="Filtrar por categoría"></div>
+
+      <!-- Herramientas -->
+      <div class="controls__block toolkit">
+        <button class="btn" data-action="grid"    title="Retícula [g]">grid</button>
+        <button class="btn" data-action="shuffle" title="Barajar [↵]">shuffle</button>
+        <button class="btn" data-action="reset"   title="Reordenar [⌫]">re-order</button>
+        <button class="btn" data-action="smaller" title="Más pequeño [-]">–</button>
+        <button class="btn" data-action="larger"  title="Más grande [+]">+</button>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+    <!-- Bio (se despliega con Info.) -->
+    <section class="bio" hidden>
+      <div class="bio__col">
+        <p>Angie Bolea is a creative director and visualist. Direction and creative
+        research for film, advertising and music videos — building the visual world
+        of a project from reference and image toward a finished piece.</p>
+      </div>
+      <div class="bio__col">
+        <p>Selected collaborations include Rosalía, Dua Lipa, Camila Cabello, Renaldo
+        &amp; Clara and Maria Roch, across music video, commercial and fashion film.</p>
+        <p class="bio__contact">Contact — hello ~at~ angiebolea.com</p>
+      </div>
+    </section>
+
+    <!-- Rejilla de proyectos (render en JS) -->
+    <section class="grid" id="grid" aria-live="polite"></section>
+
+    <noscript>
+      <p style="padding:1rem 5vw;font-family:'Courier Prime',monospace">
+        Este portfolio necesita JavaScript para mostrar los proyectos.
+      </p>
+    </noscript>
+  </main>
+
+  <footer class="site-footer">
+    <span>© Angie Bolea 2025</span>
+    <span class="site-footer__links">
+      <a href="https://www.instagram.com/angiebolea" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://vimeo.com/angiebolea" target="_blank" rel="noopener">Vimeo</a>
+      <a href="https://www.linkedin.com/in/angiebolea/" target="_blank" rel="noopener">LinkedIn</a>
+    </span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
